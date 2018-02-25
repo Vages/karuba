@@ -115,8 +115,8 @@ randomIntWithExceptionList inclusiveFrom inclusiveTo exceptionList =
         Random.map getIntAtIndex (int 0 maxArrayIndex)
 
 
-takeRandomElementFromArray : Array.Array Int -> Generator ( Int, Array.Array Int )
-takeRandomElementFromArray someArray =
+tileGenerator : Array.Array Int -> Generator ( Int, Array.Array Int )
+tileGenerator someArray =
     let
         index =
             int 0 ((Array.length someArray) - 1)
@@ -160,7 +160,7 @@ update msg model =
                 ( newModel, nextMessage )
 
         GetNextTile ->
-            ( model, Random.generate GotNextTile (takeRandomElementFromArray model.remainingTiles) )
+            ( model, Random.generate GotNextTile (tileGenerator model.remainingTiles) )
 
         GotNextTile ( tile, remainingTiles ) ->
             ( { model | pickedTiles = [ tile ] ++ model.pickedTiles, remainingTiles = remainingTiles }, Cmd.none )
