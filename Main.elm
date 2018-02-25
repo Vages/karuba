@@ -27,6 +27,8 @@ type Msg
     | GetNextTile
     | GotNextTile ( Int, Array.Array Int )
     | DrawNewStartingPositions
+    | ResetTiles
+    | UndoLastDraw
 
 
 getMeepleSpace : Model -> Cmd Msg
@@ -34,12 +36,16 @@ getMeepleSpace model =
     Random.generate GotMeepleSpace (meepleGenerator model)
 
 
+initialTileSet =
+    Array.fromList (List.range 1 36)
+
+
 initialModel : Model
 initialModel =
     { lastGeneratedMeepleSpace = 0
     , meepleAndTempleSpaces = []
-    , remainingTiles = Array.fromList (List.range 1 36)
-    , pickedTiles = []
+    , remainingTiles = initialTileSet
+    , drawnTiles = []
     }
 
 
@@ -59,8 +65,13 @@ view model =
             button [ onClick GetNextTile ] [ text "Get next tile" ]
           else
             text ""
+        , button [ onClick UndoLastDraw ] [ text "Undo last draw" ]
         , h1 [] [ text "Drawn tiles" ]
-        , ul [] (List.map (\i -> li [] [ text (toString i) ]) model.pickedTiles)
+        , ul [] (List.map (\i -> li [] [ text (toString i) ]) model.drawnTiles)
+        , if (List.length model.drawnTiles > 0) then
+            button [ onClick ResetTiles ] [ text "Reset tiles" ]
+          else
+            text ""
         ]
 
 
@@ -97,7 +108,7 @@ update msg model =
             ( model, Random.generate GotNextTile (tileGenerator model.remainingTiles) )
 
         GotNextTile ( tile, remainingTiles ) ->
-            ( { model | pickedTiles = [ tile ] ++ model.pickedTiles, remainingTiles = remainingTiles }, Cmd.none )
+            ( { model | drawnTiles = [ tile ] ++ model.drawnTiles, remainingTiles = remainingTiles }, Cmd.none )
 
         DrawNewStartingPositions ->
             let
@@ -105,3 +116,21 @@ update msg model =
                     { model | meepleAndTempleSpaces = [] }
             in
                 ( newModel, getMeepleSpace newModel )
+
+        ResetTiles ->
+            ( { model | remainingTiles = initialTileSet, drawnTiles = [] }, Cmd.none )
+
+        UndoLastDraw ->
+            let
+                drawnTiles =
+                    model.drawnTiles
+
+                newModel =
+                    case drawnTiles of
+                        h :: t ->
+                            { model | remainingTiles = Array.push h model.remainingTiles, drawnTiles = t }
+
+                        _ ->
+                            model
+            in
+                ( newModel, Cmd.none )
