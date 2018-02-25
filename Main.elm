@@ -49,6 +49,30 @@ initialModel =
     }
 
 
+meepleIntToDisplayCoordinates : Int -> ( Int, Int )
+meepleIntToDisplayCoordinates n =
+    let
+        xPosition =
+            max 0 (n - 5)
+
+        yPosition =
+            min n 6
+    in
+        ( xPosition, yPosition )
+
+
+templeIntToDisplayCoordinates : Int -> ( Int, Int )
+templeIntToDisplayCoordinates n =
+    let
+        xPosition =
+            min 7 n
+
+        yPosition =
+            max (n - 6) 0
+    in
+        ( xPosition, yPosition )
+
+
 view : Model -> Html Msg
 view model =
     div []
