@@ -7,5 +7,5 @@ type alias Model =
     { lastGeneratedMeepleSpace : Int
     , meepleAndTempleSpaces : List { meeple : Int, temple : Int }
     , remainingTiles : Array.Array Int
-    , pickedTiles : List Int
+    , drawnTiles : List Int
     }
