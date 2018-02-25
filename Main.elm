@@ -7,6 +7,8 @@ import Html.Events exposing (onClick)
 import Dict exposing (fromList)
 import Set
 import Array
+import Generators exposing (meepleGenerator, templeGenerator, tileGenerator)
+import Model exposing (Model)
 
 
 main : Program Never Model Msg
@@ -19,17 +21,17 @@ main =
         }
 
 
+type Msg
+    = GotMeepleSpace Int
+    | GotTempleSpace Int
+    | GetNextTile
+    | GotNextTile ( Int, Array.Array Int )
+    | DrawNewStartingPositions
+
+
 getMeepleSpace : Model -> Cmd Msg
 getMeepleSpace model =
     Random.generate GotMeepleSpace (meepleGenerator model)
-
-
-type alias Model =
-    { lastGeneratedMeepleSpace : Int
-    , meepleAndTempleSpaces : List { meeple : Int, temple : Int }
-    , remainingTiles : Array.Array Int
-    , pickedTiles : List Int
-    }
 
 
 initialModel : Model
@@ -41,13 +43,6 @@ initialModel =
     }
 
 
-type Msg
-    = GotMeepleSpace Int
-    | GotTempleSpace Int
-    | GetNextTile
-    | GotNextTile ( Int, Array.Array Int )
-
-
 view : Model -> Html Msg
 view model =
     div []
@@ -57,6 +52,7 @@ view model =
             (model.meepleAndTempleSpaces
                 |> List.map (\mt -> div [] [ (toString (mt.meeple * 10) ++ " " ++ toString (mt.temple * 10)) |> text ])
             )
+        , button [ onClick DrawNewStartingPositions ] [ text "Draw new starting positions" ]
         , h1 [] [ text "Number of remaining tiles" ]
         , text (toString (Array.length model.remainingTiles))
         , if (Array.length model.remainingTiles > 0) then
@@ -66,68 +62,6 @@ view model =
         , h1 [] [ text "Drawn tiles" ]
         , ul [] (List.map (\i -> li [] [ text (toString i) ]) model.pickedTiles)
         ]
-
-
-templeGenerator : Model -> Generator Int
-templeGenerator model =
-    let
-        meepleSpace =
-            model.lastGeneratedMeepleSpace
-
-        minTempleSpace =
-            max (4 - meepleSpace) 1
-
-        maxTempleSpace =
-            min (20 - meepleSpace) 11
-
-        occupiedTempleSpaces =
-            model.meepleAndTempleSpaces |> List.map .temple
-    in
-        randomIntWithExceptionList minTempleSpace maxTempleSpace occupiedTempleSpaces
-
-
-meepleGenerator : Model -> Generator Int
-meepleGenerator model =
-    let
-        occupiedMeepleSpaces =
-            model.meepleAndTempleSpaces |> List.map .meeple
-    in
-        randomIntWithExceptionList 1 11 occupiedMeepleSpaces
-
-
-randomIntWithExceptionList : Int -> Int -> List Int -> Generator Int
-randomIntWithExceptionList inclusiveFrom inclusiveTo exceptionList =
-    let
-        exceptionSet =
-            exceptionList |> Set.fromList
-
-        availableInts =
-            (List.range inclusiveFrom inclusiveTo)
-                |> List.filter (\s -> not (Set.member s exceptionSet))
-                |> Array.fromList
-
-        maxArrayIndex =
-            (Array.length availableInts) - 1
-
-        getIntAtIndex i =
-            Maybe.withDefault -1 (Array.get i availableInts)
-    in
-        Random.map getIntAtIndex (int 0 maxArrayIndex)
-
-
-tileGenerator : Array.Array Int -> Generator ( Int, Array.Array Int )
-tileGenerator someArray =
-    let
-        index =
-            int 0 ((Array.length someArray) - 1)
-
-        getIntAtIndex i =
-            Maybe.withDefault -1 (Array.get i someArray)
-
-        removeItemAtIndex i =
-            Array.append (Array.slice 0 i someArray) (Array.slice (i + 1) (Array.length someArray) someArray)
-    in
-        Random.map (\i -> ( getIntAtIndex i, removeItemAtIndex i )) index
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -164,3 +98,10 @@ update msg model =
 
         GotNextTile ( tile, remainingTiles ) ->
             ( { model | pickedTiles = [ tile ] ++ model.pickedTiles, remainingTiles = remainingTiles }, Cmd.none )
+
+        DrawNewStartingPositions ->
+            let
+                newModel =
+                    { model | meepleAndTempleSpaces = [] }
+            in
+                ( newModel, getMeepleSpace newModel )
