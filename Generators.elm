@@ -16,7 +16,7 @@ templeGenerator model =
             max (4 - meepleSpace) 1
 
         maxTempleSpace =
-            min (20 - meepleSpace) 11
+            min (19 - meepleSpace) 11
 
         occupiedTempleSpaces =
             model.meepleAndTempleSpaces |> List.map .temple
