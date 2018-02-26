@@ -1,4 +1,4 @@
-module Model exposing (Model)
+module Model exposing (..)
 
 import Array
 
@@ -9,3 +9,13 @@ type alias Model =
     , remainingTiles : Array.Array Int
     , drawnTiles : List Int
     }
+
+
+type Msg
+    = GotMeepleSpace Int
+    | GotTempleSpace Int
+    | GetNextTile
+    | GotNextTile ( Int, Array.Array Int )
+    | DrawNewStartingPositions
+    | ResetTiles
+    | UndoLastDraw
