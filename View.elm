@@ -71,19 +71,31 @@ viewTiles model =
 
                 _ ->
                     text ""
+
+        drawButton =
+            if (Array.length model.remainingTiles > 0) then
+                button [ css [ fontSize buttonSize ], onClick GetNextTile ] [ text "Get next" ]
+            else
+                text ""
+
+        undoButton =
+            if (List.length model.drawnTiles > 0) then
+                button [ css [ fontSize buttonSize ], onClick UndoLastDraw ] [ text "Undo" ]
+            else
+                text ""
+
+        resetButton =
+            if (List.length model.drawnTiles > 0) then
+                button [ css [ fontSize buttonSize ], onClick ResetTiles ] [ text "Reset" ]
+            else
+                text ""
     in
         div []
             [ h2 [ css [ marginTop (px 0), marginBottom (px 0) ] ] [ text "Tiles" ]
-            , if (Array.length model.remainingTiles > 0) then
-                button [ css [ fontSize buttonSize ], onClick GetNextTile ] [ text "Get next" ]
-              else
-                text ""
-            , button [ css [ fontSize buttonSize ], onClick UndoLastDraw ] [ text "Undo" ]
+            , drawButton
+            , undoButton
+            , resetButton
             , drawnTilesDisplay
-            , if (List.length model.drawnTiles > 0) then
-                button [ css [ fontSize buttonSize ], onClick ResetTiles ] [ text "Reset" ]
-              else
-                text ""
             ]
 
 
