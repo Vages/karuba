@@ -79,7 +79,7 @@ viewTiles model =
                 text ""
 
         undoButton =
-            if (List.length model.drawnTiles > 0) then
+            if (List.length model.drawnTiles > 0 && Array.length model.remainingTiles > 0) then
                 button [ css [ fontSize buttonSize ], onClick UndoLastDraw ] [ text "Undo" ]
             else
                 text ""
