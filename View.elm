@@ -91,7 +91,9 @@ viewTiles model =
                 text ""
     in
         div []
-            [ h2 [ css [ marginTop (px 0), marginBottom (px 0) ] ] [ text "Tiles" ]
+            [ h2
+                [ css [ marginTop (Css.em 0.2), marginBottom (px 0) ] ]
+                [ text ("Tiles (" ++ (toString <| Array.length model.remainingTiles) ++ ")") ]
             , drawButton
             , undoButton
             , resetButton
