@@ -15208,7 +15208,53 @@ var _user$project$Generators$templeGenerator = function (model) {
 	var maxTempleSpace = A2(_elm_lang$core$Basics$min, 19 - meepleSpace, 11);
 	return A3(_user$project$Generators$randomIntWithExceptionList, minTempleSpace, maxTempleSpace, occupiedTempleSpaces);
 };
-var _user$project$View$drawTiles = function (model) {
+var _user$project$View$viewTiles = function (model) {
+	var drawnTilesDisplay = function () {
+		var _p0 = model.drawnTiles;
+		if (_p0.ctor === '::') {
+			return A2(
+				_rtfeldman$elm_css$Html_Styled$ul,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: A2(
+						_rtfeldman$elm_css$Html_Styled$li,
+						{
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Html_Styled_Attributes$css(
+								{
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$fontSize(
+										_rtfeldman$elm_css$Css$em(1.6)),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Html_Styled$text(
+								_elm_lang$core$Basics$toString(_p0._0)),
+							_1: {ctor: '[]'}
+						}),
+					_1: A2(
+						_elm_lang$core$List$map,
+						function (i) {
+							return A2(
+								_rtfeldman$elm_css$Html_Styled$li,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Html_Styled$text(
+										_elm_lang$core$Basics$toString(i)),
+									_1: {ctor: '[]'}
+								});
+						},
+						_p0._1)
+				});
+		} else {
+			return _rtfeldman$elm_css$Html_Styled$text('');
+		}
+	}();
 	var buttonSize = _rtfeldman$elm_css$Css$em(0.8);
 	return A2(
 		_rtfeldman$elm_css$Html_Styled$div,
@@ -15217,10 +15263,25 @@ var _user$project$View$drawTiles = function (model) {
 			ctor: '::',
 			_0: A2(
 				_rtfeldman$elm_css$Html_Styled$h2,
-				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _rtfeldman$elm_css$Html_Styled$text('Draw tiles'),
+					_0: _rtfeldman$elm_css$Html_Styled_Attributes$css(
+						{
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css$marginTop(
+								_rtfeldman$elm_css$Css$px(0)),
+							_1: {
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$marginBottom(
+									_rtfeldman$elm_css$Css$px(0)),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Html_Styled$text('Tiles'),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
@@ -15245,7 +15306,7 @@ var _user$project$View$drawTiles = function (model) {
 					},
 					{
 						ctor: '::',
-						_0: _rtfeldman$elm_css$Html_Styled$text('Get next tile'),
+						_0: _rtfeldman$elm_css$Html_Styled$text('Get next'),
 						_1: {ctor: '[]'}
 					}) : _rtfeldman$elm_css$Html_Styled$text(''),
 				_1: {
@@ -15268,28 +15329,12 @@ var _user$project$View$drawTiles = function (model) {
 						},
 						{
 							ctor: '::',
-							_0: _rtfeldman$elm_css$Html_Styled$text('Undo last draw'),
+							_0: _rtfeldman$elm_css$Html_Styled$text('Undo'),
 							_1: {ctor: '[]'}
 						}),
 					_1: {
 						ctor: '::',
-						_0: A2(
-							_rtfeldman$elm_css$Html_Styled$ul,
-							{ctor: '[]'},
-							A2(
-								_elm_lang$core$List$map,
-								function (i) {
-									return A2(
-										_rtfeldman$elm_css$Html_Styled$li,
-										{ctor: '[]'},
-										{
-											ctor: '::',
-											_0: _rtfeldman$elm_css$Html_Styled$text(
-												_elm_lang$core$Basics$toString(i)),
-											_1: {ctor: '[]'}
-										});
-								},
-								model.drawnTiles)),
+						_0: drawnTilesDisplay,
 						_1: {
 							ctor: '::',
 							_0: (_elm_lang$core$Native_Utils.cmp(
@@ -15312,7 +15357,7 @@ var _user$project$View$drawTiles = function (model) {
 								},
 								{
 									ctor: '::',
-									_0: _rtfeldman$elm_css$Html_Styled$text('Reset tiles'),
+									_0: _rtfeldman$elm_css$Html_Styled$text('Reset'),
 									_1: {ctor: '[]'}
 								}) : _rtfeldman$elm_css$Html_Styled$text(''),
 							_1: {ctor: '[]'}
@@ -15349,7 +15394,7 @@ var _user$project$View$colors = {
 		}
 	}
 };
-var _user$project$View$drawBoard = function (model) {
+var _user$project$View$viewBoard = function (model) {
 	var textCoordinateValues = A2(
 		_elm_lang$core$List$map,
 		F2(
@@ -15357,7 +15402,7 @@ var _user$project$View$drawBoard = function (model) {
 				return x * y;
 			})(10),
 		A2(_elm_lang$core$List$range, 1, 11));
-	var coordinateFontSize = _rtfeldman$elm_css$Css$em(1);
+	var coordinateFontSize = _rtfeldman$elm_css$Css$em(0.7);
 	var leftBorderColumn = 2;
 	var rightBorderColumn = 9;
 	var bottomBorderRow = 8;
@@ -15416,8 +15461,8 @@ var _user$project$View$drawBoard = function (model) {
 	}();
 	var meepleCoordinateMarkers = A2(
 		_elm_lang$core$List$map,
-		function (_p0) {
-			var _p1 = _p0;
+		function (_p1) {
+			var _p2 = _p1;
 			return A2(
 				_rtfeldman$elm_css$Html_Styled$div,
 				{
@@ -15433,7 +15478,7 @@ var _user$project$View$drawBoard = function (model) {
 									'grid-column',
 									A2(
 										_elm_lang$core$Basics_ops['++'],
-										_elm_lang$core$Basics$toString(_p1._1._0),
+										_elm_lang$core$Basics$toString(_p2._1._0),
 										' / span 1')),
 								_1: {
 									ctor: '::',
@@ -15442,7 +15487,7 @@ var _user$project$View$drawBoard = function (model) {
 										'grid-row',
 										A2(
 											_elm_lang$core$Basics_ops['++'],
-											_elm_lang$core$Basics$toString(_p1._1._1),
+											_elm_lang$core$Basics$toString(_p2._1._1),
 											' / span 1')),
 									_1: {ctor: '[]'}
 								}
@@ -15453,7 +15498,7 @@ var _user$project$View$drawBoard = function (model) {
 				{
 					ctor: '::',
 					_0: _rtfeldman$elm_css$Html_Styled$text(
-						_elm_lang$core$Basics$toString(_p1._0)),
+						_elm_lang$core$Basics$toString(_p2._0)),
 					_1: {ctor: '[]'}
 				});
 		},
@@ -15517,8 +15562,8 @@ var _user$project$View$drawBoard = function (model) {
 	}();
 	var templeCoordinateMarkers = A2(
 		_elm_lang$core$List$map,
-		function (_p2) {
-			var _p3 = _p2;
+		function (_p3) {
+			var _p4 = _p3;
 			return A2(
 				_rtfeldman$elm_css$Html_Styled$div,
 				{
@@ -15534,7 +15579,7 @@ var _user$project$View$drawBoard = function (model) {
 									'grid-column',
 									A2(
 										_elm_lang$core$Basics_ops['++'],
-										_elm_lang$core$Basics$toString(_p3._1._0),
+										_elm_lang$core$Basics$toString(_p4._1._0),
 										' / span 1')),
 								_1: {
 									ctor: '::',
@@ -15543,7 +15588,7 @@ var _user$project$View$drawBoard = function (model) {
 										'grid-row',
 										A2(
 											_elm_lang$core$Basics_ops['++'],
-											_elm_lang$core$Basics$toString(_p3._1._1),
+											_elm_lang$core$Basics$toString(_p4._1._1),
 											' / span 1')),
 									_1: {ctor: '[]'}
 								}
@@ -15554,7 +15599,7 @@ var _user$project$View$drawBoard = function (model) {
 				{
 					ctor: '::',
 					_0: _rtfeldman$elm_css$Html_Styled$text(
-						_elm_lang$core$Basics$toString(_p3._0)),
+						_elm_lang$core$Basics$toString(_p4._0)),
 					_1: {ctor: '[]'}
 				});
 		},
@@ -15575,12 +15620,12 @@ var _user$project$View$drawBoard = function (model) {
 		model.meepleAndTempleSpaces);
 	var drawMeeples = A2(
 		_elm_lang$core$List$map,
-		function (_p4) {
-			var _p5 = _p4;
-			var _p7 = _p5._1;
-			var _p6 = _user$project$View$meepleIntToDisplayCoordinates(_p5._0);
-			var column = _p6._0;
-			var row = _p6._1;
+		function (_p5) {
+			var _p6 = _p5;
+			var _p8 = _p6._1;
+			var _p7 = _user$project$View$meepleIntToDisplayCoordinates(_p6._0);
+			var column = _p7._0;
+			var row = _p7._1;
 			return A2(
 				_rtfeldman$elm_css$Html_Styled$img,
 				{
@@ -15589,11 +15634,11 @@ var _user$project$View$drawBoard = function (model) {
 						A2(
 							_elm_lang$core$Basics_ops['++'],
 							'assets/meeple_',
-							A2(_elm_lang$core$Basics_ops['++'], _p7, '.svg'))),
+							A2(_elm_lang$core$Basics_ops['++'], _p8, '.svg'))),
 					_1: {
 						ctor: '::',
 						_0: _rtfeldman$elm_css$Html_Styled_Attributes$alt(
-							A2(_elm_lang$core$Basics_ops['++'], _p7, ' meeple')),
+							A2(_elm_lang$core$Basics_ops['++'], _p8, ' meeple')),
 						_1: {
 							ctor: '::',
 							_0: _rtfeldman$elm_css$Html_Styled_Attributes$css(
@@ -15620,7 +15665,7 @@ var _user$project$View$drawBoard = function (model) {
 													' / span 1')),
 											_1: {
 												ctor: '::',
-												_0: A2(_rtfeldman$elm_css$Css$property, 'color', _p7),
+												_0: A2(_rtfeldman$elm_css$Css$property, 'color', _p8),
 												_1: {ctor: '[]'}
 											}
 										}
@@ -15648,12 +15693,12 @@ var _user$project$View$drawBoard = function (model) {
 		model.meepleAndTempleSpaces);
 	var drawTemples = A2(
 		_elm_lang$core$List$map,
-		function (_p8) {
-			var _p9 = _p8;
-			var _p11 = _p9._1;
-			var _p10 = _user$project$View$templeIntToDisplayCoordinates(_p9._0);
-			var column = _p10._0;
-			var row = _p10._1;
+		function (_p9) {
+			var _p10 = _p9;
+			var _p12 = _p10._1;
+			var _p11 = _user$project$View$templeIntToDisplayCoordinates(_p10._0);
+			var column = _p11._0;
+			var row = _p11._1;
 			return A2(
 				_rtfeldman$elm_css$Html_Styled$img,
 				{
@@ -15662,11 +15707,11 @@ var _user$project$View$drawBoard = function (model) {
 						A2(
 							_elm_lang$core$Basics_ops['++'],
 							'assets/pyramid_',
-							A2(_elm_lang$core$Basics_ops['++'], _p11, '.svg'))),
+							A2(_elm_lang$core$Basics_ops['++'], _p12, '.svg'))),
 					_1: {
 						ctor: '::',
 						_0: _rtfeldman$elm_css$Html_Styled_Attributes$alt(
-							A2(_elm_lang$core$Basics_ops['++'], _p11, ' temple')),
+							A2(_elm_lang$core$Basics_ops['++'], _p12, ' temple')),
 						_1: {
 							ctor: '::',
 							_0: _rtfeldman$elm_css$Html_Styled_Attributes$css(
@@ -15693,7 +15738,7 @@ var _user$project$View$drawBoard = function (model) {
 													' / span 1')),
 											_1: {
 												ctor: '::',
-												_0: A2(_rtfeldman$elm_css$Css$property, 'color', _p11),
+												_0: A2(_rtfeldman$elm_css$Css$property, 'color', _p12),
 												_1: {ctor: '[]'}
 											}
 										}
@@ -15719,97 +15764,101 @@ var _user$project$View$drawBoard = function (model) {
 		{
 			ctor: '::',
 			_0: A2(
-				_rtfeldman$elm_css$Html_Styled$h1,
-				{ctor: '[]'},
+				_rtfeldman$elm_css$Html_Styled$h2,
 				{
 					ctor: '::',
-					_0: _rtfeldman$elm_css$Html_Styled$text('Karuba!'),
+					_0: _rtfeldman$elm_css$Html_Styled_Attributes$css(
+						{
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css$marginTop(
+								_rtfeldman$elm_css$Css$px(0)),
+							_1: {
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$marginBottom(
+									_rtfeldman$elm_css$Css$px(0)),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Html_Styled$text('Board'),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_rtfeldman$elm_css$Html_Styled$h2,
-					{ctor: '[]'},
+					_rtfeldman$elm_css$Html_Styled$div,
 					{
 						ctor: '::',
-						_0: _rtfeldman$elm_css$Html_Styled$text('Starting positions'),
+						_0: _rtfeldman$elm_css$Html_Styled_Attributes$css(
+							{
+								ctor: '::',
+								_0: A2(_rtfeldman$elm_css$Css$property, 'display', 'grid'),
+								_1: {
+									ctor: '::',
+									_0: A2(_rtfeldman$elm_css$Css$property, 'grid-template-rows', '1fr auto repeat(5, 1fr) auto 1fr'),
+									_1: {
+										ctor: '::',
+										_0: A2(_rtfeldman$elm_css$Css$property, 'grid-template-columns', '1fr auto repeat(6, 1fr) auto 1fr'),
+										_1: {
+											ctor: '::',
+											_0: A2(_rtfeldman$elm_css$Css$property, 'align-items', 'center'),
+											_1: {
+												ctor: '::',
+												_0: A2(_rtfeldman$elm_css$Css$property, 'justify-items', 'center'),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							}),
 						_1: {ctor: '[]'}
-					}),
+					},
+					_elm_lang$core$List$concat(
+						{
+							ctor: '::',
+							_0: drawMeeples,
+							_1: {
+								ctor: '::',
+								_0: drawTemples,
+								_1: {
+									ctor: '::',
+									_0: meepleCoordinateMarkers,
+									_1: {
+										ctor: '::',
+										_0: templeCoordinateMarkers,
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						})),
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_rtfeldman$elm_css$Html_Styled$div,
+						_rtfeldman$elm_css$Html_Styled$button,
 						{
 							ctor: '::',
 							_0: _rtfeldman$elm_css$Html_Styled_Attributes$css(
 								{
 									ctor: '::',
-									_0: A2(_rtfeldman$elm_css$Css$property, 'display', 'grid'),
-									_1: {
-										ctor: '::',
-										_0: A2(_rtfeldman$elm_css$Css$property, 'grid-template-rows', '1fr auto repeat(5, 1fr) auto 1fr'),
-										_1: {
-											ctor: '::',
-											_0: A2(_rtfeldman$elm_css$Css$property, 'grid-template-columns', '1fr auto repeat(6, 1fr) auto 1fr'),
-											_1: {
-												ctor: '::',
-												_0: A2(_rtfeldman$elm_css$Css$property, 'align-items', 'center'),
-												_1: {
-													ctor: '::',
-													_0: A2(_rtfeldman$elm_css$Css$property, 'justify-items', 'center'),
-													_1: {ctor: '[]'}
-												}
-											}
-										}
-									}
-								}),
-							_1: {ctor: '[]'}
-						},
-						_elm_lang$core$List$concat(
-							{
-								ctor: '::',
-								_0: drawMeeples,
-								_1: {
-									ctor: '::',
-									_0: drawTemples,
-									_1: {
-										ctor: '::',
-										_0: meepleCoordinateMarkers,
-										_1: {
-											ctor: '::',
-											_0: templeCoordinateMarkers,
-											_1: {ctor: '[]'}
-										}
-									}
-								}
-							})),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_rtfeldman$elm_css$Html_Styled$button,
-							{
-								ctor: '::',
-								_0: _rtfeldman$elm_css$Html_Styled_Attributes$css(
-									{
-										ctor: '::',
-										_0: _rtfeldman$elm_css$Css$fontSize(
-											_rtfeldman$elm_css$Css$em(1)),
-										_1: {ctor: '[]'}
-									}),
-								_1: {
-									ctor: '::',
-									_0: _rtfeldman$elm_css$Html_Styled_Events$onClick(_user$project$Model$DrawNewStartingPositions),
+									_0: _rtfeldman$elm_css$Css$fontSize(
+										_rtfeldman$elm_css$Css$em(1)),
 									_1: {ctor: '[]'}
-								}
-							},
-							{
+								}),
+							_1: {
 								ctor: '::',
-								_0: _rtfeldman$elm_css$Html_Styled$text('Draw new starting positions'),
+								_0: _rtfeldman$elm_css$Html_Styled_Events$onClick(_user$project$Model$DrawNewStartingPositions),
 								_1: {ctor: '[]'}
-							}),
-						_1: {ctor: '[]'}
-					}
+							}
+						},
+						{
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Html_Styled$text('New board'),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
 				}
 			}
 		});
@@ -15830,11 +15879,37 @@ var _user$project$View$view = function (model) {
 		},
 		{
 			ctor: '::',
-			_0: _user$project$View$drawBoard(model),
+			_0: A2(
+				_rtfeldman$elm_css$Html_Styled$h1,
+				{
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Html_Styled_Attributes$css(
+						{
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css$marginTop(
+								_rtfeldman$elm_css$Css$px(0)),
+							_1: {
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$marginBottom(
+									_rtfeldman$elm_css$Css$px(0)),
+								_1: {ctor: '[]'}
+							}
+						}),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Html_Styled$text('Karuba!'),
+					_1: {ctor: '[]'}
+				}),
 			_1: {
 				ctor: '::',
-				_0: _user$project$View$drawTiles(model),
-				_1: {ctor: '[]'}
+				_0: _user$project$View$viewBoard(model),
+				_1: {
+					ctor: '::',
+					_0: _user$project$View$viewTiles(model),
+					_1: {ctor: '[]'}
+				}
 			}
 		});
 };
