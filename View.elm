@@ -52,7 +52,7 @@ templeIntToDisplayCoordinates n =
 
 view : Model -> Html Msg
 view model =
-    div []
+    div [ css [ fontSize (px 64) ] ]
         [ drawBoard model
         , drawTiles model
         ]
@@ -65,7 +65,7 @@ drawTiles model =
             button [ onClick GetNextTile ] [ text "Get next tile" ]
           else
             text ""
-        , button [ onClick UndoLastDraw ] [ text "Undo last draw" ]
+        , button [ css [ fontSize (Css.em 1) ], onClick UndoLastDraw ] [ text "Undo last draw" ]
         , ul [] (List.map (\i -> li [] [ text (toString i) ]) model.drawnTiles)
         , if (List.length model.drawnTiles > 0) then
             button [ onClick ResetTiles ] [ text "Reset tiles" ]
@@ -146,7 +146,7 @@ drawBoard model =
             2
 
         coordinateFontSize =
-            Css.rem 1
+            Css.em 1
 
         meepleCoordinatePositions =
             let
