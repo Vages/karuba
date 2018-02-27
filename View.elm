@@ -18,24 +18,36 @@ meepleIntToDisplayCoordinates : Int -> ( Int, Int )
 meepleIntToDisplayCoordinates n =
     let
         xPosition =
-            max 0 (n - 5)
+            if (n <= 5) then
+                1
+            else
+                n - 3
 
         yPosition =
-            min n 6
+            if (n <= 5) then
+                n + 2
+            else
+                9
     in
-        ( 2 + xPosition, 2 + yPosition )
+        ( xPosition, yPosition )
 
 
 templeIntToDisplayCoordinates : Int -> ( Int, Int )
 templeIntToDisplayCoordinates n =
     let
         xPosition =
-            min 7 n
+            if (n >= 7) then
+                10
+            else
+                n + 2
 
         yPosition =
-            max (n - 6) 0
+            if (n >= 7) then
+                n - 4
+            else
+                1
     in
-        ( 2 + xPosition, 2 + yPosition )
+        ( xPosition, yPosition )
 
 
 view : Model -> Html Msg
@@ -83,18 +95,6 @@ drawBoard model =
                         let
                             ( column, row ) =
                                 meepleIntToDisplayCoordinates m
-
-                            alignOption =
-                                if (column == leftBorderColumn) then
-                                    "center"
-                                else
-                                    "end"
-
-                            justifyOption =
-                                if (column == leftBorderColumn) then
-                                    "start"
-                                else
-                                    "center"
                         in
                             img
                                 [ src ("assets/meeple_" ++ c ++ ".svg")
@@ -104,8 +104,6 @@ drawBoard model =
                                     , property "grid-column" ((toString column) ++ " / span 1")
                                     , property "grid-row" ((toString row) ++ " / span 1")
                                     , property "color" c
-                                    , property "align-self" alignOption
-                                    , property "justify-self" justifyOption
                                     ]
                                 ]
                                 []
@@ -121,18 +119,6 @@ drawBoard model =
                         let
                             ( column, row ) =
                                 templeIntToDisplayCoordinates t
-
-                            alignOption =
-                                if (column == rightBorderColumn) then
-                                    "center"
-                                else
-                                    "start"
-
-                            justifyOption =
-                                if (column == rightBorderColumn) then
-                                    "end"
-                                else
-                                    "center"
                         in
                             img
                                 [ src ("assets/pyramid_" ++ c ++ ".svg")
@@ -142,8 +128,6 @@ drawBoard model =
                                     , property "grid-column" ((toString column) ++ " / span 1")
                                     , property "grid-row" ((toString row) ++ " / span 1")
                                     , property "color" c
-                                    , property "align-self" alignOption
-                                    , property "justify-self" justifyOption
                                     ]
                                 ]
                                 []
@@ -191,60 +175,30 @@ drawBoard model =
             (List.map2 (,) textCoordinateValues meepleCoordinatePositions)
                 |> List.map
                     (\( t, ( x, y ) ) ->
-                        let
-                            alignOption =
-                                if (x == leftBorderColumn) then
-                                    "center"
-                                else
-                                    "start"
-
-                            justifyOption =
-                                if (x == leftBorderColumn) then
-                                    "end"
-                                else
-                                    "center"
-                        in
-                            div
-                                [ css
-                                    [ fontSize coordinateFontSize
-                                    , property "grid-column" ((toString x) ++ " / span 1")
-                                    , property "grid-row" ((toString y) ++ " / span 1")
-                                    , property "align-self" alignOption
-                                    , property "justify-self" justifyOption
-                                    ]
+                        div
+                            [ css
+                                [ fontSize coordinateFontSize
+                                , property "grid-column" ((toString x) ++ " / span 1")
+                                , property "grid-row" ((toString y) ++ " / span 1")
                                 ]
-                                [ text (toString t)
-                                ]
+                            ]
+                            [ text (toString t)
+                            ]
                     )
 
         templeCoordinateMarkers =
             (List.map2 (,) textCoordinateValues templeCoordinatePositions)
                 |> List.map
                     (\( t, ( x, y ) ) ->
-                        let
-                            alignOption =
-                                if (x == rightBorderColumn) then
-                                    "center"
-                                else
-                                    "end"
-
-                            justifyOption =
-                                if (x == rightBorderColumn) then
-                                    "start"
-                                else
-                                    "center"
-                        in
-                            div
-                                [ css
-                                    [ fontSize coordinateFontSize
-                                    , property "grid-column" ((toString x) ++ " / span 1")
-                                    , property "grid-row" ((toString y) ++ " / span 1")
-                                    , property "align-self" alignOption
-                                    , property "justify-self" justifyOption
-                                    ]
+                        div
+                            [ css
+                                [ fontSize coordinateFontSize
+                                , property "grid-column" ((toString x) ++ " / span 1")
+                                , property "grid-row" ((toString y) ++ " / span 1")
                                 ]
-                                [ text (toString t)
-                                ]
+                            ]
+                            [ text (toString t)
+                            ]
                     )
     in
         div []
@@ -253,8 +207,8 @@ drawBoard model =
             , div
                 [ css
                     [ property "display" "grid"
-                    , property "grid-template-rows" "0 repeat(7, 60px) 0"
-                    , property "grid-template-columns" "0 repeat(8, 60px) 0"
+                    , property "grid-template-rows" "1fr auto repeat(5, 1fr) auto 1fr"
+                    , property "grid-template-columns" "1fr auto repeat(6, 1fr) auto 1fr"
                     , property "align-items" "center"
                     , property "justify-items" "center"
                     ]
