@@ -53,32 +53,32 @@ templeIntToDisplayCoordinates n =
 view : Model -> Html Msg
 view model =
     div [ css [ fontSize (px 64) ] ]
-        [ drawBoard model
-        , drawTiles model
+        [ viewBoard model
+        , viewTiles model
         ]
 
 
-drawTiles model =
+viewTiles model =
     let
         buttonSize =
             Css.em 0.8
     in
         div []
-            [ h2 [] [ text "Draw tiles" ]
+            [ h2 [] [ text "Tiles" ]
             , if (Array.length model.remainingTiles > 0) then
-                button [ css [ fontSize buttonSize ], onClick GetNextTile ] [ text "Get next tile" ]
+                button [ css [ fontSize buttonSize ], onClick GetNextTile ] [ text "Get next" ]
               else
                 text ""
-            , button [ css [ fontSize buttonSize ], onClick UndoLastDraw ] [ text "Undo last draw" ]
+            , button [ css [ fontSize buttonSize ], onClick UndoLastDraw ] [ text "Undo" ]
             , ul [] (List.map (\i -> li [] [ text (toString i) ]) model.drawnTiles)
             , if (List.length model.drawnTiles > 0) then
-                button [ css [ fontSize buttonSize ], onClick ResetTiles ] [ text "Reset tiles" ]
+                button [ css [ fontSize buttonSize ], onClick ResetTiles ] [ text "Reset" ]
               else
                 text ""
             ]
 
 
-drawBoard model =
+viewBoard model =
     let
         temples =
             model.meepleAndTempleSpaces |> List.map .temple
@@ -207,7 +207,7 @@ drawBoard model =
     in
         div []
             [ h1 [] [ text "Karuba!" ]
-            , h2 [] [ text "Starting positions" ]
+            , h2 [] [ text "Board" ]
             , div
                 [ css
                     [ property "display" "grid"
@@ -224,5 +224,5 @@ drawBoard model =
                     , templeCoordinateMarkers
                     ]
                 )
-            , button [ css [ fontSize (Css.em 1) ], onClick DrawNewStartingPositions ] [ text "Draw new starting positions" ]
+            , button [ css [ fontSize (Css.em 1) ], onClick DrawNewStartingPositions ] [ text "New board" ]
             ]
