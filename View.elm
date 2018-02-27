@@ -53,32 +53,41 @@ templeIntToDisplayCoordinates n =
 view : Model -> Html Msg
 view model =
     div [ css [ fontSize (px 64) ] ]
-        [ drawBoard model
-        , drawTiles model
+        [ h1 [ css [ marginTop (px 0), marginBottom (px 0) ] ] [ text "Karuba!" ]
+        , viewBoard model
+        , viewTiles model
         ]
 
 
-drawTiles model =
+viewTiles model =
     let
         buttonSize =
             Css.em 0.8
+
+        drawnTilesDisplay =
+            case model.drawnTiles of
+                h :: t ->
+                    ul [] (li [ css [ fontSize (Css.em 1.6) ] ] [ text (toString h) ] :: (List.map (\i -> li [] [ text (toString i) ]) t))
+
+                _ ->
+                    text ""
     in
         div []
-            [ h2 [] [ text "Draw tiles" ]
+            [ h2 [ css [ marginTop (px 0), marginBottom (px 0) ] ] [ text "Tiles" ]
             , if (Array.length model.remainingTiles > 0) then
-                button [ css [ fontSize buttonSize ], onClick GetNextTile ] [ text "Get next tile" ]
+                button [ css [ fontSize buttonSize ], onClick GetNextTile ] [ text "Get next" ]
               else
                 text ""
-            , button [ css [ fontSize buttonSize ], onClick UndoLastDraw ] [ text "Undo last draw" ]
-            , ul [] (List.map (\i -> li [] [ text (toString i) ]) model.drawnTiles)
+            , button [ css [ fontSize buttonSize ], onClick UndoLastDraw ] [ text "Undo" ]
+            , drawnTilesDisplay
             , if (List.length model.drawnTiles > 0) then
-                button [ css [ fontSize buttonSize ], onClick ResetTiles ] [ text "Reset tiles" ]
+                button [ css [ fontSize buttonSize ], onClick ResetTiles ] [ text "Reset" ]
               else
                 text ""
             ]
 
 
-drawBoard model =
+viewBoard model =
     let
         temples =
             model.meepleAndTempleSpaces |> List.map .temple
@@ -150,7 +159,7 @@ drawBoard model =
             2
 
         coordinateFontSize =
-            Css.em 1
+            Css.em 0.7
 
         meepleCoordinatePositions =
             let
@@ -206,8 +215,7 @@ drawBoard model =
                     )
     in
         div []
-            [ h1 [] [ text "Karuba!" ]
-            , h2 [] [ text "Starting positions" ]
+            [ h2 [ css [ marginTop (px 0), marginBottom (px 0) ] ] [ text "Board" ]
             , div
                 [ css
                     [ property "display" "grid"
@@ -224,5 +232,5 @@ drawBoard model =
                     , templeCoordinateMarkers
                     ]
                 )
-            , button [ css [ fontSize (Css.em 1) ], onClick DrawNewStartingPositions ] [ text "Draw new starting positions" ]
+            , button [ css [ fontSize (Css.em 1) ], onClick DrawNewStartingPositions ] [ text "New board" ]
             ]
