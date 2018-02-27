@@ -59,19 +59,23 @@ view model =
 
 
 drawTiles model =
-    div []
-        [ h2 [] [ text "Draw tiles" ]
-        , if (Array.length model.remainingTiles > 0) then
-            button [ css [ fontSize (Css.em 1) ], onClick GetNextTile ] [ text "Get next tile" ]
-          else
-            text ""
-        , button [ css [ fontSize (Css.em 1) ], onClick UndoLastDraw ] [ text "Undo last draw" ]
-        , ul [] (List.map (\i -> li [] [ text (toString i) ]) model.drawnTiles)
-        , if (List.length model.drawnTiles > 0) then
-            button [ css [ fontSize (Css.em 1) ], onClick ResetTiles ] [ text "Reset tiles" ]
-          else
-            text ""
-        ]
+    let
+        buttonSize =
+            Css.em 0.8
+    in
+        div []
+            [ h2 [] [ text "Draw tiles" ]
+            , if (Array.length model.remainingTiles > 0) then
+                button [ css [ fontSize buttonSize ], onClick GetNextTile ] [ text "Get next tile" ]
+              else
+                text ""
+            , button [ css [ fontSize buttonSize ], onClick UndoLastDraw ] [ text "Undo last draw" ]
+            , ul [] (List.map (\i -> li [] [ text (toString i) ]) model.drawnTiles)
+            , if (List.length model.drawnTiles > 0) then
+                button [ css [ fontSize buttonSize ], onClick ResetTiles ] [ text "Reset tiles" ]
+              else
+                text ""
+            ]
 
 
 drawBoard model =
