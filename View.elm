@@ -62,13 +62,13 @@ drawTiles model =
     div []
         [ h2 [] [ text "Draw tiles" ]
         , if (Array.length model.remainingTiles > 0) then
-            button [ onClick GetNextTile ] [ text "Get next tile" ]
+            button [ css [ fontSize (Css.em 1) ], onClick GetNextTile ] [ text "Get next tile" ]
           else
             text ""
         , button [ css [ fontSize (Css.em 1) ], onClick UndoLastDraw ] [ text "Undo last draw" ]
         , ul [] (List.map (\i -> li [] [ text (toString i) ]) model.drawnTiles)
         , if (List.length model.drawnTiles > 0) then
-            button [ onClick ResetTiles ] [ text "Reset tiles" ]
+            button [ css [ fontSize (Css.em 1) ], onClick ResetTiles ] [ text "Reset tiles" ]
           else
             text ""
         ]
@@ -220,5 +220,5 @@ drawBoard model =
                     , templeCoordinateMarkers
                     ]
                 )
-            , button [ onClick DrawNewStartingPositions ] [ text "Draw new starting positions" ]
+            , button [ css [ fontSize (Css.em 1) ], onClick DrawNewStartingPositions ] [ text "Draw new starting positions" ]
             ]
