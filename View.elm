@@ -52,7 +52,7 @@ templeIntToDisplayCoordinates n =
 
 view : Model -> Html Msg
 view model =
-    div [ css [ fontSize (px 64) ] ]
+    div [ css [ fontSize (px 36), maxWidth (px 800) ] ]
         [ h1 [ css [ marginTop (px 0), marginBottom (px 0) ] ] [ text "Karuba!" ]
         , viewBoard model
         , viewTiles model
